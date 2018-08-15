@@ -10,8 +10,9 @@ from=$(buildah --storage-driver="${STORAGE_DRIVER}" from scratch)
 scratchmnt=$(buildah --storage-driver="${STORAGE_DRIVER}" mount ${from})
 
 yum install \
+    -y \
     --installroot ${scratchmnt} \
-    --release 7 \
+    --releasever 7 \
     bash coreutils
 yum clean \
     --installroot ${scratchmnt} \
