@@ -4,8 +4,10 @@
 
 set -ex
 
-from=$(buildah from scratch)
-scratchmnt=$(buildah mount ${from})
+STORAGE_DRIVER=${STORAGE_DRIVER:-overlayfs}
+
+from=$(buildah --storage-driver="${STORAGE_DRIVER}" from scratch)
+scratchmnt=$(buildah --storage-driver="${STORAGE_DRIVER}" mount ${from})
 
 yum install \
     --installroot ${scratchmnt} \
@@ -16,9 +18,9 @@ yum clean \
     --installroot ${scratchmnt} \
     all
 rm -rf ${scratchmnt}/var/cache/yum
-buildah unmount ${from}
-buildah config \
+buildah --storage-driver="${STORAGE_DRIVER}" unmount ${from}
+buildah --storage-driver="${STORAGE_DRIVER}" config \
     --cmd /bin/bash \
     --created-by "${USER}@${HOSTNAME}" \
     ${from}
-buildah commit ${from} ${1+"$@"}
+buildah --storage-driver="${STORAGE_DRIVER}" commit ${from} ${1+"$@"}
