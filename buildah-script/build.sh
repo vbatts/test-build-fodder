@@ -4,7 +4,7 @@
 
 set -ex
 
-STORAGE_DRIVER=${STORAGE_DRIVER:-overlayfs}
+STORAGE_DRIVER=${BUILDAH_STORAGE_DRIVER:-overlayfs}
 
 from=$(buildah --storage-driver="${STORAGE_DRIVER}" from scratch)
 scratchmnt=$(buildah --storage-driver="${STORAGE_DRIVER}" mount ${from})
