@@ -12,7 +12,6 @@ scratchmnt=$(buildah --storage-driver="${STORAGE_DRIVER}" mount ${from})
 yum install \
     --installroot ${scratchmnt} \
     --release 7 \
-    --setopt install_weak_deps=false -y \
     bash coreutils
 yum clean \
     --installroot ${scratchmnt} \
